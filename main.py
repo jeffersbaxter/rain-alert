@@ -27,10 +27,12 @@ while not chance_of_rain and current_hr < len(next_twelve_hours):
         proxy_client = TwilioHttpClient()
         proxy_client.session.proxies = {"https": os.environ["https_proxy"]}
         client = Client(account_sid, auth_token, http_client=proxy_client)
+        from_phone = os.environ.get("FROM_TWILIO_PHONE")
+        to_phone = os.environ.get("TO_TWILIO_PHONE")
         message = client.messages.create(
             body="Rain in the forecast. Don't forget a rain jacket!",
-            from_="+15617823086",
-            to="+14259233086"
+            from_=from_phone,
+            to=to_phone
         )
         chance_of_rain = True
     else:
